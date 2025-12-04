@@ -41,6 +41,7 @@ char *get_next_line(int fd)
 	//fare la substring della stringa fino a \n, \n compreso, se non ce alcun \n comunque returnare la stringa completa, il tutto dovra essere copiato all'interno di str_ret
 	//ovviamente bisogna capire come gestire il puntatore di str, sono abbastanza convinto che bisogna mandarlo avanti, quindi alla funzione di substr dovremo passarlo con & 
 	// anche perche senno poi il calolo del reto non ci sara mai alla chiamata dopo.
+	//la stringa finale da returnare e str_ret che sara la substr.
 }
 
 int main(void)
