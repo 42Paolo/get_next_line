@@ -4,30 +4,6 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
-char *substring_before_char(const char *str, char delim)
-{
-    if (!str)
-        return NULL;
-    const char *ptr = str;
-    int len = 0;
-    while (ptr[len] && ptr[len] != delim)
-        len++;
-    char *result = malloc(len + 1);
-    if (!result)
-        return NULL;
-    int i = 0;
-    while (i < len)
-    {
-        result[i] = str[i];
-        i++;
-    }
-    result[i] = '\0';
-    return result;
-}
-
 int ft_strlen(char *str)
 {
 	int	i;
@@ -38,19 +14,33 @@ int ft_strlen(char *str)
 	return (i);
 }
 
-
-
 char *get_next_line(int fd)
 {
 	static char *str;
-	char		*read_str;
+	char		*str_ret;
+	char		*ptr_start;
+	char		*ptr_tmp;
 	int			len_resto;
+
 	if (fd < 0)
 		return (NULL);
 	str = (char *)malloc(sizeof(char *) * (BUFFER_SIZE));
+	str[BUFFER_SIZE] = '\0';
+	ptr_start = str;
+	ptr_tmp = ptr_start;
 	len_resto = ft_strlen(str);
-	read(fd, read_str, BUFFER_SIZE - len_resto);
-
+	//ricopiare il resto di str all'inizio di str cosicche poi si possa copiare subito dopo con il read il resto dei caratteri che devo copiare. 
+	while (len_resto > 0)
+	{
+		ptr_tmp = str;
+		ptr_tmp++;
+		str++;
+		len_resto--;
+	}
+	read(fd, ptr_tmp, BUFFER_SIZE - len_resto);
+	//fare la substring della stringa fino a \n, \n compreso, se non ce alcun \n comunque returnare la stringa completa, il tutto dovra essere copiato all'interno di str_ret
+	//ovviamente bisogna capire come gestire il puntatore di str, sono abbastanza convinto che bisogna mandarlo avanti, quindi alla funzione di substr dovremo passarlo con & 
+	// anche perche senno poi il calolo del reto non ci sara mai alla chiamata dopo.
 }
 
 int main(void)
